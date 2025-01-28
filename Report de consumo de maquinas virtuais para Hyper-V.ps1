@@ -58,25 +58,32 @@ foreach ($vm in $vms) {
     # Converte o valor de CPU em MHz para GHz
     $cpuGHz = $cpuUsage / 1000
 
-    # Discos virtuais conectados à VM
+    # Discos virtuais conectados à VM (Para ligar uma VM o Hyper-v tira um Snapshot - necessario localizar todos os VHD e Avhds para par somar)
     $hardDrives = Get-VMHardDiskDrive -VMName $vmName
 
-    # Disco alocado em GB (Para ligar uma VM o Hyper-v tira um Snapshot - necessario localizar todos os VHD e Avhds para par somar)
+    # Quantidade de discos e total alocado
+    $diskCount = $hardDrives.Count
     $diskAllocated = 0
+    $diskSizes = @()
+
     foreach ($disk in $hardDrives) {
-        $diskAllocated += (Get-VHD -Path $disk.Path).Size / 1GB
+        $diskSizeGB = (Get-VHD -Path $disk.Path).Size / 1GB
+        $diskAllocated += $diskSizeGB
+        $diskSizes += "{0:N2} GB" -f $diskSizeGB
     }
 
     # Report do total de recursos 
-    $result += [PSCustomObject]@{
-        Nome             = $vmName
-        Estado           = $vmState
-        MemoriaAlocadaGB = "{0:N2}" -f $memoryAllocated
-        MemoriaUsadaGB   = "{0:N2}" -f $memoryUsed
-        CPUAlocada       = $cpuAllocated
-        CPUUsageGHz      = "{0:N2} GHz" -f $cpuGHz
-        DiscoAlocadoGB   = "{0:N2}" -f $diskAllocated
-    }
+$result += [PSCustomObject]@{
+    Nome             = $vmName
+    Estado           = $vmState
+    MemoriaAlocadaGB = "{0:N2}" -f $memoryAllocated
+    MemoriaUsadaGB   = "{0:N2}" -f $memoryUsed
+    CPUAlocada       = $cpuAllocated
+    CPUUsageGHz      = "{0:N2} GHz" -f $cpuGHz
+    Discos           = $diskCount
+    TamanhoDiscosGB  = ($diskSizes -join ", ")
+    DiscoTotalGB     = "{0:N2}" -f $diskAllocated
+    Particoes        = ($partitionLetters -join ", ")
 }
 
 # Exibir as informações como tabela
