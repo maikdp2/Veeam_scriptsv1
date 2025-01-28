@@ -1,13 +1,11 @@
 #Report de consumo de maquinas virtuais aplicavel apenas para Hyper-V 
 #28/01/2024
 #mmiranda@penso.com.br
-#
-#
-#
-#
-#
+#https://www.penso.com.br/veeam-backup/
 
 
+
+#Script para coleta de consumo de maquinas virtuais no Hyper-V
 #Infelizmente o Hyper-v não exibe de forma simple o consumo de CPU seja em GHZ ou porcentagem, para fazer isso é necessario habilitar a coleta via Measure-VM e para isso
 #é necessario habilitar o contador de performance do windows para as vms que deseja coletar as infomaçoes de consumo. Mais sobre isso abaixo.
 #https://learn.microsoft.com/en-us/powershell/module/hyper-v/measure-vm?view=windowsserver2025-ps 
