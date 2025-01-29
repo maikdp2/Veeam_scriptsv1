@@ -1,19 +1,26 @@
-Script para Coleta de Informações do Hypervisor
+# Coletores de maquinas virtuais 
+## Este coletor foi pensado para embasamento de tamanho e consumo de maquinas virtuais para replicas via VEEAM
 
-Este script foi desenvolvido para coletar informações relevantes sobre o hypervisor em execução. Ele facilita a obtenção de dados essenciais para análise, suporte ou auditorias técnicas.
+Ness post voce encontrará o script para rodar em Vcenters e Hyper-v, ambos deve ser utlizado apartir do powershell
 
-Requisitos
+### Requisitos para Hyper-V
 
-O script deve ser executado com privilégios de administrador.
+- Utilize no minimo o Powerhsell 5.1. Você pode consultar a versão do seu PS com o comando Get-Host
+O Powerhell 7 é totalmente suportado pelo script 
 
-É necessário ter o ambiente com powerhel 5.1 no minimo
+https://learn.microsoft.com/pt-br/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.5
 
-Como Executar
+### Requisitos para Vcenter
+- Necessario o modulo VMware.PowerCLI você pode instala-lo utilizando o comando abaixo 
+```sh
+Install-Module VMware.PowerCLI -Scope CurrentUser
+```
+- Você pode enfrentar problemas para se conectar ao Vmware por possuir certificados auto assinado, se for o seu caso utilize o comando abaixo para pular a verificação.
+```sh
+Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false 
+```
+https://www.powershellgallery.com/packages/VMware.PowerCLI/12.7.0.20091289 
 
-Certifique-se de que você está logado com uma conta que tenha privilégios de administrador.
+Ao fim do Script o report será salvo no desktop do usuario utilizado no Powershell
 
-Abra o PS:
 
-Navegue até o diretório onde o script está localizado.
-
-Execute o script utilizando o comando adequado:
